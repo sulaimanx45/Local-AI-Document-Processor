@@ -1,0 +1,26 @@
+{
+  "invoice_1.pdf": {
+    "class": "Invoice",
+    "invoice_number": "INV-2025-104",
+    "date": "2025-01-15",
+    "company": "ACME Technologies Ltd.",
+    "total_amount": 3500.5
+  },
+  "other_1.pdf": {
+    "class": "Other"
+  },
+  "resume_1.pdf": {
+    "class": "Resume",
+    "name": "Michael Anderson",
+    "email": "michael.anderson@gmail.com",
+    "phone": "+1-555-123-4567",
+    "experience_years": null
+  },
+  "utility_bill_1.pdf": {
+    "class": "Utility Bill",
+    "account_number": "ACC-778291",
+    "date": "2025-02-01",
+    "usage_kwh": "420",
+    "amount_due": 89.75
+  }
+}

@@ -3,7 +3,7 @@ import json
 from ingestion import read_all_documents
 from classify import classify_document
 from extract import extract_fields
-from vector_store import build_vectorstore, search_documents
+from vector_store import build_vectorstore, search_documents, build_document_summary
 
 app = FastAPI()
 
@@ -25,7 +25,12 @@ def process_documents():
     with open(OUTPUT_FILE, "w") as f:
         json.dump(results, f, indent=2)
 
-    docs_list = [{"filename": filename, "text": text} for filename, text in documents.items()]
+    docs_list = [
+        {
+            "filename": filename,
+            "text":     build_document_summary(filename, results[filename]["class"], results[filename])
+        }
+        for filename in results]
 
     build_vectorstore(docs_list)
 

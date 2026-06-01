@@ -72,3 +72,32 @@ def search_documents(query: str, top_k: int = 5):
         results.append({"filename": document["filename"], "distance": round(float(distance), 3)})
 
     return results
+
+
+def build_document_summary(filename: str, doc_class: str, fields: dict) -> str:
+    """
+    Builds a readable summary for embedding.
+    More meaningful than raw text for semantic search.
+    """
+    if doc_class == "Invoice":
+        return (
+            f"This is an invoice from company {fields.get('company', '')} "
+            f"with invoice number {fields.get('invoice_number', '')} "
+            f"dated {fields.get('date', '')} "
+            f"with total amount {fields.get('total_amount', '')}."
+        )
+    elif doc_class == "Resume":
+        return (
+            f"This is a resume of {fields.get('name', '')} "
+            f"with email {fields.get('email', '')} "
+            f"and {fields.get('experience_years', '')} years of experience."
+        )
+    elif doc_class == "Utility Bill":
+        return (
+            f"This is a utility bill with account number {fields.get('account_number', '')} "
+            f"dated {fields.get('date', '')} "
+            f"with usage {fields.get('usage_kwh', '')} kWh "
+            f"and amount due {fields.get('amount_due', '')}."
+        )
+    else:
+        return f"This is a general document named {filename}."

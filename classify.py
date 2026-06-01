@@ -1,23 +1,26 @@
 def classify_document(text: str) -> str:
 
-    text_lower = text.lower()
-
-    if len(text_lower.strip()) < 30:
+    if len(text.strip()) < 30:
         return "Unclassifiable"
 
-    invoice = ["invoice","invoice number","invoice no","inv-","bill to","total amount"]
+    text_lower = text.lower()
 
-    resume = ["resume","curriculum vitae","work experience","skills","education","projects","experience"]
+    # no standalone "invoice" or "resume" — too generic
+    invoice      = ["invoice #", "invoice number", "invoice no", "bill to", "total amount"]
+    resume       = ["curriculum vitae", "work experience", "skills",
+                    "education", "experience:", "email:", "phone:", "summary:"]
+    utility_bill = ["account number", "meter reading", "kwh", "amount due",
+                    "utility", "billing date"]
 
-    utility_bill = ["utility bill","electricity bill","gas bill","water bill","account number","meter reading","kwh","amount due"]
+    scores = {
+        "Invoice":      sum(1 for kw in invoice      if kw in text_lower),
+        "Resume":       sum(1 for kw in resume        if kw in text_lower),
+        "Utility Bill": sum(1 for kw in utility_bill  if kw in text_lower),
+    }
 
-    if any(keyword in text_lower for keyword in invoice):
-        return "Invoice"
+    best = max(scores, key=scores.get)
 
-    if any(keyword in text_lower for keyword in resume):
-        return "Resume"
+    if scores[best] == 0:
+        return "Other"
 
-    if any(keyword in text_lower for keyword in utility_bill):
-        return "Utility Bill"
-
-    return "Other"
+    return best

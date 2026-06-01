@@ -38,9 +38,7 @@ def extract_amount(text: str):
 def extract_company(text: str):
 
     return (
-        find_first(r"(?:company|from|vendor|billed\s*by)[:\s]+([A-Za-z0-9\s\.,]+)", text) or
-        find_first(r"([A-Z][A-Za-z0-9\s]+(?:Ltd|LLC|Inc|Corp|Co)\.?)", text))
-
+        find_first(r"([A-Z][A-Za-z0-9\s]+?(?:Ltd|LLC|Inc|Corp|Tech))(?:\s|$)", text))
 
 def extract_name(text: str):
     first_line = text.strip().split("\n")[0].strip()
@@ -68,7 +66,7 @@ def extract_experience_years(text: str):
 
 def extract_invoice_fields(text: str) -> dict:
     return {
-        "invoice_number": find_first(r"invoice\s*(?:number|no)[:\s#-]*([A-Z0-9-]+)", text),
+        "invoice_number": find_first(r"invoice\s*#\s*(\d+)", text),
         "date":           extract_date(text),
         "company":        extract_company(text),
         "total_amount":   extract_amount(text),}
